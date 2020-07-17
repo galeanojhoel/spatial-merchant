@@ -32,7 +32,8 @@ snob krok Silver custa 68 créditos
 snob krok Gold custa 57800 créditos
 snob krok Iron custa 782 créditos
 Nem ideia doque isto significa!
-```
+
+// understanding the problem
 
 I I Prata valem 34 créditos
 I V Ouro valem 57800 créditos
@@ -42,3 +43,4 @@ quanto vale X L I I ? (10 - 50) + 1 + 1 = 42
 quantos créditos são I V Silver ? (1 - 5) = 4 Silver (2 Silver == 34 créditos) -> 68 créditos
 quantos créditos são I V Gold ? 4 Gold -> 57800 créditos
 quantos créditos são I V Iron ? 4 Iron (20 Iron == 3910 créditos) -> (3910 / 20) * 4 = 782 créditos
+```
