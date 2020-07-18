@@ -25,14 +25,31 @@ function parseText(text) {
     handle invalid lines
   */
 
-  return { prices, questions, questionsText: questionsLines };
+  return { aliases, prices, questions, questionsText: getQuestionLines(lines) };
 }
 
-function asLines(text) {
-  const readLines = text.split(/\n/);
-  const noEmptyLines = readLines.filter(line => !!line);
+function defineQuestions(lines) {
+  const questions = [];
 
-  return noEmptyLines;
+  lines.reduce((acc, line) => {
+    let type, qty, material;
+
+    const lineAsArray = line.split(' ');
+
+    if (line.startsWith('quanto vale ')) {
+      type = 'qty';
+      qty = lineAsArray.slice(2, -1);
+    } else if (line.startsWith('quantos créditos são ')) {
+      type = 'price';
+      qty = lineAsArray.slice(3, -2);
+      material = lineAsArray.slice(-2, -1);
+    }
+
+    acc.push({ type, qty, material });
+    return acc;
+  }, questions);
+
+  return questions;
 }
 
 function isPriceLine(line) {
@@ -59,6 +76,10 @@ function getFixedPriceLines(lines, aliases) {
   lines = lines.map(line => line.toLowerCase());
   const priceLines = lines.filter(line => isPriceLine(line));
   return linesToRomanNumerals(priceLines, aliases);
+}
+
+function getQuestionLines(lines) {
+  return lines.filter(line => isQuestionLine(line));
 }
 
 function getFixedQuestionLines(lines, aliases) {
@@ -104,29 +125,6 @@ function definePrices(lines) {
   return prices;
 }
 
-function defineQuestions(lines) {
-  const questions = [];
-
-  lines.reduce((acc, line) => {
-    let type, qty, material;
-
-    const lineAsArray = line.split(' ');
-
-    if (line.startsWith('quanto vale ')) {
-      type = 'qty';
-      qty = lineAsArray.slice(2, -1);
-    } else if (line.startsWith('quantos créditos são ')) {
-      type = 'price';
-      qty = lineAsArray.slice(3, -2);
-      material = lineAsArray.slice(-2, -1);
-    }
-
-    acc.push({ type, qty, material });
-    return acc;
-  }, questions);
-
-  return questions;
-}
 
 function linesToRomanNumerals(lines, aliases) {
   const aliasesAsArray = Object.entries(aliases);
@@ -137,4 +135,11 @@ function linesToRomanNumerals(lines, aliases) {
   });
 
   return lines;
+}
+
+function asLines(text) {
+  const readLines = text.split(/\n/);
+  const noEmptyLines = readLines.filter(line => !!line);
+
+  return noEmptyLines;
 }

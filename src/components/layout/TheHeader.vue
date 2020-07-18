@@ -7,7 +7,7 @@ export default Vue.extend({
     return h(
       'header',
       {
-        class: 'Header'
+        class: 'TheHeader'
       },
       [h(
         'h1',
@@ -20,3 +20,9 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style scoped>
+.TheHeader {
+  margin-bottom: 3rem;
+}
+</style>

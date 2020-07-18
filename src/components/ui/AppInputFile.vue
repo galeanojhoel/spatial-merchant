@@ -33,13 +33,21 @@ export default Vue.extend({
       null
     );
 
+    const FragmentIcon = h(
+      'object',
+      {
+        attrs: { data: 'publish.svg' },
+        class: 'AppInputFile__Icon',
+      }, null)
+
     const FragmentLabel = h(
       'label',
       {
         attrs: { for: 'file-input' },
         class: 'AppInputFile__Label'
       },
-      'Escolha o arquivo');
+      [h('div', {class: 'AppInputFile__IconWrapper'}, [FragmentIcon, 'Escolha o arquivo'])]
+      );
 
     return h('div', [FragmentButton, FragmentLabel]);
   }
@@ -54,9 +62,29 @@ export default Vue.extend({
   display: none;
 }
 
+.AppInputFile__Icon {
+  display: inline-block;
+  color: white;
+  width: 3ch;
+  margin-right: 5px;
+}
+
 .AppInputFile__Label {
-  padding: 15px;
-  cursor: pointer;
+  display: inline-block;
+  padding: 15px 30px;
+  background-color: black; 
   border: 1px solid black;
+  border-radius: 30px;
+
+  color: white;
+  font-weight: bold;
+  
+  cursor: pointer;
+}
+
+.AppInputFile__IconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>
