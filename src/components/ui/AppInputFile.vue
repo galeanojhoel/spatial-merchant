@@ -1,6 +1,6 @@
 <script>
 import Vue from 'vue';
-import { parseFile } from '../../utils/file.util';
+import { parseFile } from '../../utils/read-file.util';
 
 export default Vue.extend({
   name: 'AppInputFile',
@@ -72,14 +72,17 @@ export default Vue.extend({
 .AppInputFile__Label {
   display: inline-block;
   padding: 15px 30px;
-  background-color: black; 
-  border: 1px solid black;
+  background-color: #464F80;
   border-radius: 30px;
 
   color: white;
   font-weight: bold;
   
   cursor: pointer;
+}
+
+.AppInputFile__Label:hover {
+  box-shadow: 0 0 15px inset white;
 }
 
 .AppInputFile__IconWrapper {

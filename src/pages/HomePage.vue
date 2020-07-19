@@ -3,6 +3,8 @@ import Vue from 'vue';
 import TheHeader from '../components/layout/TheHeader.vue';
 import AppInputFile from '../components/ui/AppInputFile.vue';
 import AppAsked from '../components/ui/AppAsked.vue';
+import AppButton from '../components/ui/AppButton.vue';
+import AppModal from '../components/ui/AppModal.vue';
 
 import { resolveNumber } from '../utils/roman-math.util';
 
@@ -46,12 +48,15 @@ export default Vue.extend({
   components: {
     TheHeader,
     AppInputFile,
-    AppAsked
+    AppAsked,
+    AppButton,
+    AppModal
   },
 
   data() {
     return {
-      askedList: [] // [{ question, answer }]
+      askedList: [], // [{ question, answer }],
+      modalData: null
     };
   },
 
@@ -59,9 +64,7 @@ export default Vue.extend({
     // TODO handle error messages better
     resolveFile(fileData) {
       // [{ aliases, prices, questions, questionsText }]
-
       const answers = fileData.questions.reduce((acc, question) => {
-
         const result = findResult(question, fileData.prices, fileData.aliases);
 
         acc.push(result);
@@ -71,14 +74,33 @@ export default Vue.extend({
       this.askedList = fileData.questionsText.map((question, i) => {
         return { question, answer: answers[i] };
       });
+    },
+
+    writeOutputText() {
+      if (!this.askedList || this.askedList.length === 0) {
+        window.alert('Por favor, escolha um arquivo antes de gerar o arquivo.');
+      } else {
+        const answers = this.askedList.map(asked => asked.answer);
+        this.modalData = answers.join('\n');
+      }
+    },
+
+    closeModal() {
+      this.modalData = null;
     }
   }
 });
 </script>
 <template>
-  <main>
-    <TheHeader>Welcome, Spatial Merchant!</TheHeader>
-    <AppInputFile @fileInput="resolveFile" />
+  <div>
+    <TheHeader>Bem-vindo, vendedor interespacial!</TheHeader>
+    <div class="--in-row">
+      <AppInputFile @fileInput="resolveFile" />
+      <AppButton
+        @click="writeOutputText"
+        style="margin-left: 15px; background-color: #90ee90;"
+      >Gerar output text</AppButton>
+    </div>
     <section class="AppContainer">
       <AppAsked
         v-for="(asked, i) in askedList"
@@ -87,7 +109,9 @@ export default Vue.extend({
         :key="i"
       />
     </section>
-  </main>
+
+    <AppModal v-if="!!modalData" @close="closeModal" :data="modalData" />
+  </div>
 </template>
 
 <style scoped>
@@ -98,5 +122,11 @@ export default Vue.extend({
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   grid-gap: 15px;
+}
+
+.--in-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 </style>
