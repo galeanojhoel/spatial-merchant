@@ -8,9 +8,9 @@ export default Vue.extend({
   methods: {
     handleChange(ev) {
       const fileList = ev.target.files;
-      parseFile(fileList.item(0)).then(fileData =>
-        this.$emit('fileInput', fileData)
-      );
+      parseFile(fileList.item(0))
+        .then(fileData => this.$emit('fileInput', fileData))
+        .catch(error => window.alert(error));
     }
   },
 
@@ -27,7 +27,7 @@ export default Vue.extend({
         },
 
         on: {
-          change: this.handleChange
+          input: ev => this.handleChange(ev)
         }
       },
       null
@@ -37,8 +37,10 @@ export default Vue.extend({
       'object',
       {
         attrs: { data: 'publish.svg' },
-        class: 'AppInputFile__Icon',
-      }, null)
+        class: 'AppInputFile__Icon'
+      },
+      null
+    );
 
     const FragmentLabel = h(
       'label',
@@ -46,8 +48,13 @@ export default Vue.extend({
         attrs: { for: 'file-input' },
         class: 'AppInputFile__Label'
       },
-      [h('div', {class: 'AppInputFile__IconWrapper'}, [FragmentIcon, 'Escolha o arquivo'])]
-      );
+      [
+        h('div', { class: 'AppInputFile__IconWrapper' }, [
+          FragmentIcon,
+          'Escolha o arquivo'
+        ])
+      ]
+    );
 
     return h('div', [FragmentButton, FragmentLabel]);
   }
@@ -72,12 +79,13 @@ export default Vue.extend({
 .AppInputFile__Label {
   display: inline-block;
   padding: 15px 30px;
-  background-color: #464F80;
+  background-color: #464f80;
   border-radius: 30px;
 
   color: white;
   font-weight: bold;
-  
+  font-size: 1rem;
+
   cursor: pointer;
 }
 

@@ -4,6 +4,23 @@ Link to [Github Pages](https://galeanojhoel.github.io/spatial-merchant/).
 
 A parser of custom type names, defined similarly to the roman numerals.
 
+## Como usar
+
+Com yarn:
+
+```shell
+$ yarn
+$ yarn run serve
+```
+
+Ou com npm:
+
+```shell
+$ npm i
+$ npm run serve
+```
+
+
 
 ## Task
 

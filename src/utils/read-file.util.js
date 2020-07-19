@@ -3,8 +3,12 @@ import { resolveNumber } from './roman-math.util';
 export async function parseFile(file) {
   return new Promise((resolve, reject) => {
     file.text().then(text => {
-      const fileData = parseText(text);
-      resolve(fileData);
+      try {
+        const fileData = parseText(text);
+        resolve(fileData);
+      } catch (error) {
+        reject('Não foi possível ler o arquivo.');
+      } 
     });
   });
 }

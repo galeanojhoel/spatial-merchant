@@ -28,6 +28,7 @@ export default Vue.extend({
 
   color: white;
   font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
 }
 

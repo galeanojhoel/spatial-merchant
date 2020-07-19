@@ -64,16 +64,21 @@ export default Vue.extend({
     // TODO handle error messages better
     resolveFile(fileData) {
       // [{ aliases, prices, questions, questionsText }]
-      const answers = fileData.questions.reduce((acc, question) => {
-        const result = findResult(question, fileData.prices, fileData.aliases);
+      try {
 
-        acc.push(result);
-        return acc;
-      }, []);
-
-      this.askedList = fileData.questionsText.map((question, i) => {
-        return { question, answer: answers[i] };
-      });
+        const answers = fileData.questions.reduce((acc, question) => {
+          const result = findResult(question, fileData.prices, fileData.aliases);
+  
+          acc.push(result);
+          return acc;
+        }, []);
+  
+        this.askedList = fileData.questionsText.map((question, i) => {
+          return { question, answer: answers[i] };
+        });
+      } catch (error) {
+        alert('Não foi possível inferir sobre o arquivo.')
+      }
     },
 
     writeOutputText() {
